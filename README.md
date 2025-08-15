@@ -4,9 +4,9 @@
 
 <div align="center">
 
-[![Stars](https://img.shields.io/github/stars/LondheShubham153/retail-store-sample-app)](Stars)
-![GitHub License](https://img.shields.io/github/license/LondheShubham153/retail-store-sample-app?color=green)
-![Dynamic JSON Badge](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fraw.githubusercontent.com%LondheShubham153%2Fretail-store-sample-app%2Frefs%2Fheads%2Fmain%2F.release-please-manifest.json&query=%24%5B%22.%22%5D&label=release)
+[![Stars](https://img.shields.io/github/stars/HasanAshab/retail-store-sample-app)](Stars)
+![GitHub License](https://img.shields.io/github/license/HasanAshab/retail-store-sample-app?color=green)
+
 
 <strong>
 <h2>AWS Containers Retail Sample - GitOps Edition</h2>
@@ -88,7 +88,7 @@ graph LR
 
 1. **Install Prerequisites**: AWS CLI, Terraform, kubectl, Docker, Helm
 2. **Configure AWS**: `aws configure` with appropriate credentials
-3. **Clone Repository**: `git clone https://github.com/LondheShubham153/retail-store-sample-app.git`
+3. **Clone Repository**: `git clone https://github.com/HasanAshab/retail-store-sample-app.git`
 4. **Deploy Infrastructure**: Run Terraform in two phases (see [Getting Started](#getting-started))
 5. **Access Application**: Get load balancer URL and browse the retail store
 
@@ -155,7 +155,7 @@ helm version
 ### **Step 1: Clone Repository**
 
 ```bash
-git clone https://github.com/LondheShubham153/retail-store-sample-app.git
+git clone https://github.com/HasanAshab/retail-store-sample-app.git
 cd retail-store-sample-app
 git checkout gitops
 ```
@@ -191,7 +191,7 @@ Add these secrets:
 ### **Phase 1: Infrastructure Deployment**
 
 ```bash
-cd terraform/
+cd infra/
 ```
 
 ```sh
@@ -280,7 +280,7 @@ git commit -m "Add new feature to UI"
 git push origin gitops
 
 # 3. Monitor deployment
-# - Check GitHub Actions: https://github.com/LondheShubham153/actions
+# - Check GitHub Actions: https://github.com/HasanAshab/actions
 # - Check ArgoCD UI: https://localhost:9090
 ```
 
@@ -389,7 +389,7 @@ kubectl logs -n retail-store deployment/catalog
 <summary><strong>🔧 Enable Monitoring</strong></summary>
 
 ```bash
-# Edit terraform/addons.tf
+# Edit infra/addons.tf
 enable_kube_prometheus_stack = true
 
 # Apply changes
@@ -408,7 +408,7 @@ kubectl port-forward svc/kube-prometheus-stack-grafana -n monitoring 3000:80
 ### **Destroy Infrastructure**
 
 ```bash
-cd terraform/
+cd infra/
 
 # Option 1: Destroy everything at once
 terraform destroy --auto-approve
@@ -465,9 +465,8 @@ This project is licensed under the Apache License 2.0 - see the [LICENSE](./LICE
 
 ## Support
 
-- **Issues**: [GitHub Issues](https://github.com/LondheShubham153/retail-store-sample-app/issues)
-- **Discord**: [TrainWithShubhamCommunity](https://discord.gg/kGEr9mR5gT)
-
+- **Issues**: [GitHub Issues](https://github.com/HasanAshab/retail-store-sample-app/issues)
+- **LinkedIn**: [Hasan Ashab](https://www.linkedin.com/in/hasan-ashab)
 ---
 
 <div align="center">
