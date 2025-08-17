@@ -94,30 +94,47 @@ resource "helm_release" "argocd" {
 # WAIT FOR ARGOCD TO BE READY
 # =============================================================================
 
-resource "time_sleep" "wait_for_argocd" {
-  create_duration = "60s"
-  depends_on      = [helm_release.argocd]
-}
+# resource "time_sleep" "wait_for_argocd" {
+#   create_duration = "60s"
+#   depends_on      = [helm_release.argocd]
+# }
 
 # =============================================================================
 # DEPLOY ARGOCD APPLICATIONS
 # =============================================================================
 
-resource "null_resource" "argocd_apps" {
-  depends_on = [time_sleep.wait_for_argocd]
+# resource "null_resource" "argocd_apps" {
+#   depends_on = [time_sleep.wait_for_argocd]
   
-  provisioner "local-exec" {
-    command = <<-EOT
-      echo "Deploying ArgoCD projects and applications..."
-      kubectl apply -n ${var.argocd_namespace} -f ${path.module}/../argocd/projects/
-      kubectl apply -n ${var.argocd_namespace} -f ${path.module}/../argocd/applications/
-      echo "ArgoCD applications deployed successfully!"
-    EOT
-  }
+#   provisioner "local-exec" {
+#     command = <<-EOT
+#       echo "Deploying ArgoCD projects and applications..."
+#       kubectl apply -n ${var.argocd_namespace} -f ${path.module}/../argocd/projects/
+#       kubectl apply -n ${var.argocd_namespace} -f ${path.module}/../argocd/applications/
+#       echo "ArgoCD applications deployed successfully!"
+#     EOT
+#   }
   
-  # Trigger re-deployment if ArgoCD configuration changes
-  triggers = {
-    argocd_version = var.argocd_chart_version
-    timestamp      = timestamp()
-  }
+#   # Trigger re-deployment if ArgoCD configuration changes
+#   triggers = {
+#     argocd_version = var.argocd_chart_version
+#     timestamp      = timestamp()
+#   }
+# }
+
+
+resource "kubernetes_manifest" "argocd_projects" {
+  for_each = fileset("${path.module}/../argocd/projects", "*.yaml")
+
+  manifest = yamldecode(file("${path.module}/../argocd/projects/${each.value}"))
+
+  depends_on = [helm_release.argocd]
+}
+
+resource "kubernetes_manifest" "argocd_apps" {
+  for_each = fileset("${path.module}/../argocd/applications", "*.yaml")
+
+  manifest = yamldecode(file("${path.module}/../argocd/applications/${each.value}"))
+
+  depends_on = [helm_release.argocd, kubernetes_manifest.argocd_projects]
 }
