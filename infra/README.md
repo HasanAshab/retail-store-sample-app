@@ -39,30 +39,6 @@ vim terraform.tfvars
 
 ### 3. Deploy Infrastructure
 
-You can deploy in two phases for better control:
-
-#### Phase 1: Deploy EKS Cluster Only
-```bash
-# Initialize Terraform
-terraform init
-
-# Deploy only the EKS cluster and VPC
-terraform apply -target=module.retail_app_eks -target=module.vpc --auto-approve
-```
-
-#### Phase 2: Deploy Add-ons and ArgoCD
-```bash
-# Get the actual cluster name (with suffix)
-terraform output cluster_name
-
-# Update kubeconfig to access the cluster (use the output from above)
-aws eks update-kubeconfig --region <aws region> --name <cluster-name-with-suffix>
-
-# Deploy the remaining components
-terraform apply --auto-approve
-```
-
-#### Single Phase Deployment (Alternative)
 ```bash
 # Initialize Terraform
 terraform init
@@ -78,7 +54,7 @@ terraform apply
 
 ```bash
 # Update kubeconfig (replace with your region and cluster name)
-aws eks update-kubeconfig --region us-west-2 --name retail-store
+aws eks update-kubeconfig --region us-west-2 --name retail-store-<suffix>
 ```
 
 ### 5. Access ArgoCD
